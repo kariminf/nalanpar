@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src/test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SentRep"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/stanford-parser-full-2014-08-27"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
