@@ -1,10 +1,13 @@
 package kariminf.nalanpar.stanford;
 
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
+import edu.stanford.nlp.ling.HasLemma;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.Label;
+import edu.stanford.nlp.ling.Word;
 import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 import edu.stanford.nlp.process.Tokenizer;
 import edu.stanford.nlp.trees.GrammaticalStructure;
@@ -19,7 +22,8 @@ public class TestStanfordParser {
 	static final String model = 
 			"../stanford-parser-full-2014-08-27/models/lexparser/englishFactored.ser.gz";
 	static String text =
-			"The mother that ate 5 apples play at the backyard.";
+			//"The mother that ate 5 apples play at the backyard.";
+			"If you eat so much, you will be fat.";
 	/**
 	 * @param args
 	 */
@@ -33,9 +37,9 @@ public class TestStanfordParser {
 				tlp.getTokenizerFactory().getTokenizer(new StringReader(text));
 		List<? extends HasWord> sentence = toke.tokenize();
 
-		Tree parse = lp.parse(sentence);
-		parse.pennPrint();
 		
+		Tree parse = lp.parse(sentence);
+		//parse.pennPrint();
 		/*for (Tree t : parse.children()){
 			t.pennPrint();
 			System.out.println("---------");
@@ -56,6 +60,7 @@ public class TestStanfordParser {
 		if (t.isLeaf()){
 			if (l != null)
 				System.out.print(l.value());
+			
 			return;
 		}
 		

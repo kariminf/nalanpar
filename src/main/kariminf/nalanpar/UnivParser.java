@@ -1,35 +1,56 @@
 package kariminf.nalanpar;
 
-import kariminf.nalanpar.Types.Phrase;
+import kariminf.nalanpar.Types.POSType;
+import kariminf.nalanpar.Types.Posable;
 
 public abstract class UnivParser {
 	
 	protected ParseHandler handler;
+	protected POSTransformer posTrans;
 	
-	public UnivParser(ParseHandler handler){
+	public UnivParser(ParseHandler handler, POSTransformer posTrans){
 		this.handler = handler;
+		this.posTrans = posTrans;
 	}
 	
+	/**
+	 * 
+	 * @param text
+	 */
 	public void parse(String text){
 		if (! prepare(text))
 			return;
-		while (found()){
-			if (isPhrase()){
-				phraseProcess();
-				continue;
-			}
-			
+		while (next()){
+			elementProcess();
 		}
 	}
 	
-	private void phraseProcess(){
+	private void elementProcess(){
+		
+		
 		
 	}
 	
 	protected abstract boolean prepare(String text);
-	protected abstract boolean found();
-	protected abstract boolean isPhrase();
-	protected abstract Phrase phraseType();
-	protected abstract boolean isElement();
+	protected abstract boolean next();
+	protected abstract Element getElement();
+	
+	public class Element {
+		private String val = "";
+		private Posable pos;
+		
+		public Element (String val, Posable pos){
+			this.val = val;
+			this.pos = pos;
+		}
+		
+		public String getVal(){
+			return val;
+		}
+		
+		public Posable getPos(){
+			return pos;
+		}
+	}
 
 }
