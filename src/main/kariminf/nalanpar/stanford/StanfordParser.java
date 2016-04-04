@@ -2,6 +2,7 @@ package kariminf.nalanpar.stanford;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import edu.stanford.nlp.ling.HasWord;
@@ -23,7 +24,7 @@ public class StanfordParser extends UnivParser {
 			"../stanford-parser-full-2014-08-27/models/lexparser/englishFactored.ser.gz";
 
 	
-	private int pointer = -1;
+	private Iterator<Element> pointer = null;
 	private ArrayList<Element> elements = new ArrayList<Element>();
 	
 	public StanfordParser(ParseHandler handler, POSTransformer posTrans) {
@@ -32,7 +33,6 @@ public class StanfordParser extends UnivParser {
 
 	@Override
 	protected boolean prepare(String text) {
-		pointer = -1;
 		String[] options = { "-maxLength", "80", "-retainTmpSubcategories" };
 		LexicalizedParser lp = LexicalizedParser.loadModel(model, options);
 		TreebankLanguagePack tlp = lp.getOp().langpack();
@@ -49,56 +49,81 @@ public class StanfordParser extends UnivParser {
 		
 		parseTree(parse);
 		
+		pointer = elements.iterator();
+		
 		return true;
 	}
 	
 
 	@Override
 	protected boolean next() {
-		pointer++;
-		//TODO verify the pointer < size_array & verify size_array > 0
-		return true;
+		return pointer.hasNext();
 	}
 	
 
 	@Override
-	protected Element getElement() {
-		//TODO complete
-		
-		return null;
+	protected Element getElement() {	
+		return pointer.next();
 	}
 	
 	
 	private void parseTree(Tree t){
-		Label l = t.label();
 		
+		if (t.isPreTerminal()){
+			
+			Label l = t.label();
+			String pos = null;
+			
+			if (l != null)
+				pos = l.value();
+			
+			String val = t.children()[0].label().value();
+			
+			Element e = getLeafElement(pos, val);
+			
+			elements.add(e);
+			
+			return;
+		}
+		
+		
+		Label l = t.label();
 		String v = null;
 		
 		if (l != null)
 			v = l.value();
 		
-		if (v != null)
-			System.out.println("BEGIN:" + v);
+		if (v != null){
+			//System.out.println("\nEND:" + v);
+			Element e = getPhraseElement(v, true);
+			elements.add(e);
+		}
+			
 		
 		Tree[] childs = t.children();
+		
 		if (childs != null){
 			for (Tree child: childs){
-				//System.out.print(" "); //result += " ";
-				if (child.isLeaf()){
-					if (child != null)
-						System.out.print(child.label().value());
-					
-					continue;
-				}
 				parseTree(child);
 			}
-			//result += " ";
 		}
 		
-		if (v != null)
-			System.out.println("\nEND:" + v);
-		//System.out.println(")");
+		
+		if (v != null){
+			//System.out.println("\nEND:" + v);
+			Element e = getPhraseElement(v, false);
+			elements.add(e);
+		}
 			
+	}
+	
+	
+	private Element getPhraseElement(String pos, boolean begin){
+		return null;
+	}
+	
+	private Element getLeafElement(String pos, String val){
+		return null;
 	}
 
 	
