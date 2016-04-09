@@ -18,7 +18,7 @@ import kariminf.nalanpar.Types.POSType;
 import kariminf.nalanpar.Types.Phrase;
 import kariminf.nalanpar.UnivParser;
 
-public class StanfordParser extends UnivParser {
+public class SUnivParser extends UnivParser {
 	
 	static final String model = 
 			"../stanford-parser-full-2014-08-27/models/lexparser/englishFactored.ser.gz";
@@ -27,7 +27,7 @@ public class StanfordParser extends UnivParser {
 	private Iterator<Element> pointer = null;
 	private ArrayList<Element> elements = new ArrayList<Element>();
 	
-	public StanfordParser(ParseHandler handler, POSTransformer posTrans) {
+	public SUnivParser(ParseHandler handler, POSTransformer posTrans) {
 		super(handler, posTrans);
 	}
 
