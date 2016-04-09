@@ -9,13 +9,10 @@ import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.Label;
 import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 import edu.stanford.nlp.process.Tokenizer;
-import edu.stanford.nlp.trees.GrammaticalStructureFactory;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreebankLanguagePack;
 import kariminf.nalanpar.POSTransformer;
 import kariminf.nalanpar.ParseHandler;
-import kariminf.nalanpar.Types.POSType;
-import kariminf.nalanpar.Types.Phrase;
 import kariminf.nalanpar.UnivParser;
 
 public class SUnivParser extends UnivParser {

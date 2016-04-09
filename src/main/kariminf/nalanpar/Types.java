@@ -6,13 +6,31 @@ public class Types {
 		
 	}
 	
-	public static enum POSType {
+	public interface Featured {
+		
+	}
+	
+	public static class PhrasalFeature implements Featured {
+		private boolean begin = true;
+		
+		public void setEnd(){
+			this.begin = false;
+		}
+		
+		public boolean getbegin(){
+			return begin;
+		}
+	}
+
+	public static enum Phrasal implements Posable {
 		NP, //Noun phrase
 		VP, //Verbe phrase
 		ADJP,//Adjective phrase
 		ADVP, //Adverbe phrase
-		NN,
-		NNS,
+		WHNP;
+	}
+	
+	public static enum Terminal implements Posable {
 		ADJ, // adjective
 		ADP, // adposition
 		ADV, // adverb
@@ -28,33 +46,9 @@ public class Types {
 		PUNCT, // punctuation
 		SCONJ, // subordinating conjunction
 		SYM, // symbol
-		VERB // verb
+		VERB, // verb
+		X; // other
 	}
-	public static enum Phrase implements Posable {
-		NP, //Noun phrase
-		VP, //Verbe phrase
-		ADJP,//Adjective phrase
-		ADVP, //Adverbe phrase
-		WHNP;
-		
-		private boolean begin = true;
-		public Phrase setEnding(){
-			this.begin = false;
-			return this;
-		}
-		
-		public boolean isBegin(){
-			return begin;
-		}
-	}
-	
-	public static enum Verb implements Posable {
-		VBD
-	}
-	
-	public static enum Noun implements Posable {
-		NN,
-		NNS,
-	}
+
 
 }
