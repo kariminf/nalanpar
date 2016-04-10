@@ -13,6 +13,10 @@ import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreebankLanguagePack;
 import kariminf.nalanpar.POSTransformer;
 import kariminf.nalanpar.ParseHandler;
+import kariminf.nalanpar.Types.Featured;
+import kariminf.nalanpar.Types.Phrasal;
+import kariminf.nalanpar.Types.PhrasalFeature;
+import kariminf.nalanpar.Types.Terminal;
 import kariminf.nalanpar.UnivParser;
 
 public class SUnivParser extends UnivParser {
@@ -38,6 +42,7 @@ public class SUnivParser extends UnivParser {
 				tlp.getTokenizerFactory().getTokenizer(new StringReader(text));
 		List<? extends HasWord> sentence = toke.tokenize();
 		Tree parse = lp.parse(sentence);
+		parse.pennPrint();
 		
 		if (parse == null || parse.isEmpty()){
 			parse = null;
@@ -116,11 +121,11 @@ public class SUnivParser extends UnivParser {
 	
 	
 	private Element getPhraseElement(String pos, boolean begin){
-		return null;
+		return posTrans.getPhrasalElement(pos, begin);
 	}
 	
 	private Element getLeafElement(String pos, String val){
-		return null;
+		return posTrans.getTerminalElement(pos, val);
 	}
 
 	

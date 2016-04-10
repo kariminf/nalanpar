@@ -21,13 +21,26 @@ public class Types {
 			return begin;
 		}
 	}
+	
+	public static class VerbFeature implements Featured {
+		private int tense = 0;
+		
+		public void setPresent(){
+			this.tense = 0;
+		}
+		
+		public void setPast(){
+			this.tense = 1;
+		}
+		
+	}
 
 	public static enum Phrasal implements Posable {
 		NP, //Noun phrase
 		VP, //Verbe phrase
 		ADJP,//Adjective phrase
 		ADVP, //Adverbe phrase
-		WHNP;
+		PP; //Prepositional phrase
 	}
 	
 	public static enum Terminal implements Posable {

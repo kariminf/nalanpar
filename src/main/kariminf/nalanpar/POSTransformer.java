@@ -1,15 +1,14 @@
 package kariminf.nalanpar;
 
-import kariminf.nalanpar.Types.Phrasal;
 import kariminf.nalanpar.Types.Posable;
-import kariminf.nalanpar.Types.Terminal;
+import kariminf.nalanpar.UnivParser.Element;
 
 public interface POSTransformer {
 	
 	public Posable getType(String pos);
 	
-	public Terminal getTerminal(String pos);
+	public Element getTerminalElement(String pos, String val);
 	
-	public Phrasal getPhrasal(String pos);
+	public Element getPhrasalElement(String pos, boolean begin);
 
 }
