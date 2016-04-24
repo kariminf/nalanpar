@@ -13,10 +13,12 @@ import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreebankLanguagePack;
 import kariminf.nalanpar.POSTransformer;
 import kariminf.nalanpar.ParseHandler;
+import kariminf.nalanpar.Types.Det;
 import kariminf.nalanpar.Types.Featured;
-import kariminf.nalanpar.Types.Phrasal;
-import kariminf.nalanpar.Types.PhrasalFeature;
+import kariminf.nalanpar.Types.NounFeature;
+import kariminf.nalanpar.Types.Posable;
 import kariminf.nalanpar.Types.Terminal;
+import kariminf.nalanpar.stanford.EnSPOS2Univ.PennTreeBankTerminal;
 import kariminf.nalanpar.UnivParser;
 
 public class SUnivParser extends UnivParser {
@@ -27,6 +29,8 @@ public class SUnivParser extends UnivParser {
 	
 	private Iterator<Element> pointer = null;
 	private ArrayList<Element> elements = new ArrayList<Element>();
+	
+	private Det determiner = Det.NONE;
 	
 	public SUnivParser(ParseHandler handler, POSTransformer posTrans) {
 		super(handler, posTrans);
@@ -42,7 +46,8 @@ public class SUnivParser extends UnivParser {
 				tlp.getTokenizerFactory().getTokenizer(new StringReader(text));
 		List<? extends HasWord> sentence = toke.tokenize();
 		Tree parse = lp.parse(sentence);
-		parse.pennPrint();
+		//parse.pennPrint();
+		
 		
 		if (parse == null || parse.isEmpty()){
 			parse = null;
@@ -64,7 +69,7 @@ public class SUnivParser extends UnivParser {
 	
 
 	@Override
-	protected Element getElement() {	
+	protected Element getElement() {
 		return pointer.next();
 	}
 	
@@ -78,10 +83,46 @@ public class SUnivParser extends UnivParser {
 			
 			if (l != null)
 				pos = l.value();
+			try{
+				PennTreeBankTerminal p = PennTreeBankTerminal.valueOf(pos);
+			}
+			catch (IllegalArgumentException e){
+				//TODO it is a punctuation, deal with it after
+				return;
+			}
 			
 			String val = t.children()[0].label().value();
 			
 			Element e = getLeafElement(pos, val);
+			
+			Posable p = e.getPos();
+			if (p == null)
+				return;
+			Terminal te = (Terminal) p;
+			
+			if (te == Terminal.DET){
+				determiner  = posTrans.getDet(val);
+				return;
+			}
+			
+			if (te == Terminal.NOUN){
+				NounFeature nf = (NounFeature) e.getFeature();
+				if (nf != null){
+					switch (determiner){
+					case N:
+						nf.setUnDefined();
+						break;
+					case Y:
+						nf.setDefined();
+						break;
+					default:
+						break;
+					
+					}
+					
+					determiner = Det.NONE;
+				}
+			}
 			
 			elements.add(e);
 			

@@ -6,7 +6,7 @@ import kariminf.nalanpar.ston.Text2Ston;
 
 public class EnSUniv2StonTest {
 
-	private static final String sent = "Mother ate food at home.";
+	private static final String sent = "Mother ate food.";
 	
 	public static void main(String[] args) {
 		EnSPOS2Univ posTranformer = new EnSPOS2Univ();
@@ -14,6 +14,8 @@ public class EnSUniv2StonTest {
 		SUnivParser parser = new SUnivParser(handler, posTranformer);
 		
 		parser.parse(sent);
+		System.out.println("STON:");
+		System.out.println(handler.getSTON());
 
 	}
 

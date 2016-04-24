@@ -1,6 +1,10 @@
 package kariminf.nalanpar.stanford;
 
 import kariminf.nalanpar.POSTransformer;
+import kariminf.nalanpar.Types.Det;
+import kariminf.nalanpar.Types.Featured;
+import kariminf.nalanpar.Types.NounFeature;
+import kariminf.nalanpar.Types.VerbFeature;
 import kariminf.nalanpar.Types.Phrasal;
 import kariminf.nalanpar.Types.PhrasalFeature;
 import kariminf.nalanpar.Types.Posable;
@@ -9,7 +13,7 @@ import kariminf.nalanpar.UnivParser.Element;
 
 public class EnSPOS2Univ implements POSTransformer {
 	
-	private static enum PennTreeBankTerminal {
+	public static enum PennTreeBankTerminal {
 		//Word Level
 		//=============
 		CC, //Coordinating conjunction
@@ -97,8 +101,155 @@ public class EnSPOS2Univ implements POSTransformer {
 
 	@Override
 	public Element getTerminalElement(String pos, String val) {
-		// TODO Auto-generated method stub
-		return null;
+		PennTreeBankTerminal p = PennTreeBankTerminal.valueOf(pos);
+		Terminal t = null;
+		Featured f = null;
+		
+		switch(p){
+		
+		case NN: //Noun, singular or mass
+		{
+			t = Terminal.NOUN;
+			NounFeature nf = new NounFeature();
+			f = nf;
+			break;
+		}
+		case NNS: //Noun, plural
+		{
+			t = Terminal.NOUN;
+			NounFeature nf = new NounFeature();
+			nf.setPlural();
+			f = nf;
+			break;
+		}
+		case NNP: //Proper noun, singular
+		{
+			t = Terminal.NOUN;
+			NounFeature nf = new NounFeature();
+			nf.setProper();
+			f = nf;
+			break;
+		}
+		case NNPS: //Proper noun, plural
+		{
+			t = Terminal.NOUN;
+			NounFeature nf = new NounFeature();
+			nf.setProper();
+			nf.setPlural();
+			f = nf;
+			break;
+		}
+		case VB: //Verb, base form
+		{
+			t = Terminal.VERB;
+			VerbFeature vf = new VerbFeature();
+			vf.setPresent();
+			f = vf;
+			break;
+		}
+			
+		case VBD: //Verb, past tense
+		{
+			t = Terminal.VERB;
+			VerbFeature vf = new VerbFeature();
+			vf.setPast();
+			f = vf;
+			break;
+		}
+		case VBG: //Verb, gerund or present participle
+		{
+			t = Terminal.VERB;
+			VerbFeature vf = new VerbFeature();
+			vf.setPresent();
+			f = vf;
+			break;
+		}
+		case VBN: //Verb, past participle
+		{
+			t = Terminal.VERB;
+			VerbFeature vf = new VerbFeature();
+			vf.setPast();
+			f = vf;
+			break;
+		}
+		case VBP: //Verb, non-3rd person singular present
+		{
+			t = Terminal.VERB;
+			VerbFeature vf = new VerbFeature();
+			vf.setPresent();
+			f = vf;
+			break;
+		}
+		case VBZ: //Verb, 3rd person singular present
+		{
+			t = Terminal.VERB;
+			VerbFeature vf = new VerbFeature();
+			vf.setPresent();
+			f = vf;
+			break;
+		}
+		case CC:
+			break;
+		case CD:
+			break;
+		case DT:
+		{
+			t = Terminal.DET;
+			break;
+		}
+		case EX:
+			break;
+		case FW:
+			break;
+		case IN:
+			break;
+		case JJ:
+			break;
+		case JJR:
+			break;
+		case JJS:
+			break;
+		case LS:
+			break;
+		case MD:
+			break;
+		case PDT:
+			break;
+		case POS:
+			break;
+		case PRP:
+			break;
+		case PRP$:
+			break;
+		case RB:
+			break;
+		case RBR:
+			break;
+		case RBS:
+			break;
+		case RP:
+			break;
+		case SYM:
+			break;
+		case TO:
+			break;
+		case UH:
+			break;
+		case WDT:
+			break;
+		case WP:
+			break;
+		case WP$:
+			break;
+		case WRB:
+			break;
+		default:
+			break;
+			
+		}
+		
+		Element e = new Element(val, t, f);
+		return e;
 	}
 
 	@Override
@@ -119,8 +270,78 @@ public class EnSPOS2Univ implements POSTransformer {
 		case ADVP:
 			ph = Phrasal.ADVP;
 			break;
-		default:
+		case PP:
+			ph = Phrasal.PP;
 			break;
+		case CONJP:
+			return null;
+			//break;
+		case FRAG:
+			return null;
+			//break;
+		case INTJ:
+			return null;
+			//break;
+		case LST:
+			return null;
+			//break;
+		case NAC:
+			return null;
+			//break;
+		case NX:
+			return null;
+			//break;
+		case PRN:
+			return null;
+			//break;
+		case PRT:
+			return null;
+			//break;
+		case QP:
+			return null;
+			//break;
+		case ROOT:
+			return null;
+			//break;
+		case RRC:
+			return null;
+			//break;
+		case S:
+			ph = Phrasal.S;
+			break;
+		case SBAR:
+			return null;
+			//break;
+		case SBARQ:
+			return null;
+			//break;
+		case SINV:
+			return null;
+			//break;
+		case SQ:
+			return null;
+			//break;
+		case UCP:
+			return null;
+			//break;
+		case WHADJP:
+			return null;
+			//break;
+		case WHAVP:
+			return null;
+			//break;
+		case WHNP:
+			return null;
+			//break;
+		case WHPP:
+			return null;
+			//break;
+		case X:
+			return null;
+			//break;
+		default:
+			return null;
+			//break;
 		}
 		
 		PhrasalFeature phF = new PhrasalFeature();
@@ -128,6 +349,16 @@ public class EnSPOS2Univ implements POSTransformer {
 			phF.setEnd();
 		Element e = new Element("", ph, phF);
 		return e;
+	}
+
+	@Override
+	public Det getDet(String val) {
+		val = val.toLowerCase();
+		if (val.equals("the"))
+			return Det.Y;
+		if (val.matches("a|an"))
+			return Det.N;
+		return Det.NONE;
 	}
 
 }

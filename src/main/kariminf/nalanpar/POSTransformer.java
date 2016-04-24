@@ -1,5 +1,6 @@
 package kariminf.nalanpar;
 
+import kariminf.nalanpar.Types.Det;
 import kariminf.nalanpar.Types.Posable;
 import kariminf.nalanpar.UnivParser.Element;
 
@@ -10,5 +11,7 @@ public interface POSTransformer {
 	public Element getTerminalElement(String pos, String val);
 	
 	public Element getPhrasalElement(String pos, boolean begin);
+	
+	public Det getDet(String val);
 
 }

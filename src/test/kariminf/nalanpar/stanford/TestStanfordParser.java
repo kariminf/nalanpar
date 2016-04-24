@@ -23,7 +23,7 @@ public class TestStanfordParser {
 			"../stanford-parser-full-2014-08-27/models/lexparser/englishFactored.ser.gz";
 	static String text =
 			//"The mother that ate 5 apples play at the backyard.";
-			"If you eat so much, you will be fat.";
+			"the mother eats food.";
 	/**
 	 * @param args
 	 */
@@ -52,7 +52,7 @@ public class TestStanfordParser {
 		System.out.println(tdl);
 		System.out.println();
 
-		//System.out.println(parse.taggedYield());
+		System.out.println(parse.taggedYield());
 	}
 	
 	public static void parseTree(Tree t){
