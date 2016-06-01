@@ -1,9 +1,11 @@
 package kariminf.nalanpar.stanford;
 
 import kariminf.nalanpar.POSTransformer;
+import kariminf.nalanpar.Types.ConjFeature;
 import kariminf.nalanpar.Types.Det;
 import kariminf.nalanpar.Types.Featured;
 import kariminf.nalanpar.Types.NounFeature;
+import kariminf.nalanpar.Types.PPFeature;
 import kariminf.nalanpar.Types.VerbFeature;
 import kariminf.nalanpar.Types.Phrasal;
 import kariminf.nalanpar.Types.PhrasalFeature;
@@ -189,7 +191,14 @@ public class EnSPOS2Univ implements POSTransformer {
 			break;
 		}
 		case CC:
+		{
+			t = Terminal.CONJ;
+			ConjFeature cf = new ConjFeature();
+			if (val.contains("and"))
+				cf.setConjunction();
+			f = cf;
 			break;
+		}
 		case CD:
 			break;
 		case DT:
@@ -202,7 +211,12 @@ public class EnSPOS2Univ implements POSTransformer {
 		case FW:
 			break;
 		case IN:
-			break;
+		{
+			PPFeature pf = new PPFeature();
+			pf.setPrep(val);
+			Phrasal ph = Phrasal.PP;
+			return new Element(val, ph, pf);
+		}
 		case JJ:
 			break;
 		case JJR:

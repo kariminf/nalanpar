@@ -1,8 +1,10 @@
 package kariminf.nalanpar;
 
+import kariminf.nalanpar.Types.ConjFeature;
 import kariminf.nalanpar.Types.Det;
 import kariminf.nalanpar.Types.Featured;
 import kariminf.nalanpar.Types.NounFeature;
+import kariminf.nalanpar.Types.PPFeature;
 import kariminf.nalanpar.Types.Phrasal;
 import kariminf.nalanpar.Types.PhrasalFeature;
 import kariminf.nalanpar.Types.Posable;
@@ -89,7 +91,7 @@ public abstract class UnivParser {
 				handler.endAdjP();
 			return;
 
-		case ADVP:
+		case ADVP:	
 			if (((PhrasalFeature)f).getbegin())
 				handler.beginAdvP();
 			else
@@ -97,8 +99,10 @@ public abstract class UnivParser {
 			return;
 
 		case PP:
+			String prep = f instanceof PPFeature? 
+					((PPFeature)f).getPrep(): "";
 			if (((PhrasalFeature)f).getbegin())
-				handler.beginPP();
+				handler.beginPP(prep);
 			else
 				handler.endPP();
 			return;
@@ -123,6 +127,7 @@ public abstract class UnivParser {
 		
 		switch(p){
 		case NOUN:
+		{
 			boolean plural = false;
 			boolean proper = false;
 			Det def = Det.NONE;
@@ -134,6 +139,7 @@ public abstract class UnivParser {
 			}
 			handler.addNoun(val, def, plural, proper);
 			break;
+		}
 		case ADJ:
 			break;
 		case ADP:
@@ -143,7 +149,15 @@ public abstract class UnivParser {
 		case AUX:
 			break;
 		case CONJ:
+		{
+			boolean conj = true;
+			if (f != null && f instanceof ConjFeature){
+				ConjFeature cf = (ConjFeature) f;
+				conj = cf.getConjunction();
+			}
+			handler.conjected(conj);
 			break;
+		}
 		case DET:
 			break;
 		case INTJ:
@@ -154,8 +168,6 @@ public abstract class UnivParser {
 			break;
 		case PRON:
 			break;
-		case PROPN:
-			break;
 		case PUNCT:
 			break;
 		case SCONJ:
@@ -163,12 +175,14 @@ public abstract class UnivParser {
 		case SYM:
 			break;
 		case VERB:
+		{
 			VerbTense tense = VerbTense.PRESENT;
 			if (f instanceof VerbFeature){
 				tense = ((VerbFeature) f).getTense();
 			}
 			handler.addVerb(val, tense);
 			break;
+		}
 		case X:
 			break;
 		default:

@@ -24,6 +24,18 @@ public class Types {
 		}
 	}
 	
+	public static class PPFeature extends PhrasalFeature {
+		private String prep = "";
+		
+		public void setPrep(String prep){
+			this.prep = prep;
+		}
+		
+		public String getPrep(){
+			return prep;
+		}
+	}
+	
 	public static enum VerbTense {
 		PAST,
 		PRESENT,
@@ -85,6 +97,19 @@ public class Types {
 		}
 		
 	}
+	
+	public static class ConjFeature implements Featured {
+		private boolean conj = false;
+		
+		public void setConjunction(){
+			this.conj = true;
+		}
+		
+		public boolean getConjunction(){
+			return conj;
+		}
+		
+	}
 
 	public static enum Phrasal implements Posable {
 		S,
@@ -107,7 +132,7 @@ public class Types {
 		NUM, // numeral
 		PART, // particle
 		PRON, // pronoun
-		PROPN, // proper noun
+		//PROPN, // proper noun
 		PUNCT, // punctuation
 		SCONJ, // subordinating conjunction
 		SYM, // symbol

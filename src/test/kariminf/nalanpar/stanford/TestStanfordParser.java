@@ -23,7 +23,7 @@ public class TestStanfordParser {
 			"../stanford-parser-full-2014-08-27/models/lexparser/englishFactored.ser.gz";
 	static String text =
 			//"The mother that ate 5 apples play at the backyard.";
-			"the mother eats food.";
+			"the boy and the father play football and basketball at home.";
 	/**
 	 * @param args
 	 */
@@ -39,7 +39,7 @@ public class TestStanfordParser {
 
 		
 		Tree parse = lp.parse(sentence);
-		//parse.pennPrint();
+		parse.pennPrint();
 		/*for (Tree t : parse.children()){
 			t.pennPrint();
 			System.out.println("---------");

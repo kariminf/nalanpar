@@ -16,6 +16,7 @@ import kariminf.nalanpar.ParseHandler;
 import kariminf.nalanpar.Types.Det;
 import kariminf.nalanpar.Types.Featured;
 import kariminf.nalanpar.Types.NounFeature;
+import kariminf.nalanpar.Types.Phrasal;
 import kariminf.nalanpar.Types.Posable;
 import kariminf.nalanpar.Types.Terminal;
 import kariminf.nalanpar.stanford.EnSPOS2Univ.PennTreeBankTerminal;
@@ -25,12 +26,14 @@ public class SUnivParser extends UnivParser {
 	
 	static final String model = 
 			"../stanford-parser-full-2014-08-27/models/lexparser/englishFactored.ser.gz";
-
+	
 	
 	private Iterator<Element> pointer = null;
 	private ArrayList<Element> elements = new ArrayList<Element>();
 	
 	private Det determiner = Det.NONE;
+	
+	private boolean prepPh = false;
 	
 	public SUnivParser(ParseHandler handler, POSTransformer posTrans) {
 		super(handler, posTrans);
@@ -73,7 +76,10 @@ public class SUnivParser extends UnivParser {
 		return pointer.next();
 	}
 	
-	
+	/**
+	 * 
+	 * @param t
+	 */
 	private void parseTree(Tree t){
 		
 		if (t.isPreTerminal()){
@@ -85,6 +91,7 @@ public class SUnivParser extends UnivParser {
 				pos = l.value();
 			try{
 				PennTreeBankTerminal p = PennTreeBankTerminal.valueOf(pos);
+				
 			}
 			catch (IllegalArgumentException e){
 				//TODO it is a punctuation, deal with it after
@@ -98,7 +105,7 @@ public class SUnivParser extends UnivParser {
 			Posable p = e.getPos();
 			if (p == null)
 				return;
-			Terminal te = (Terminal) p;
+			Terminal te = p instanceof Terminal? (Terminal) p: null;
 			
 			if (te == Terminal.DET){
 				determiner  = posTrans.getDet(val);
@@ -124,6 +131,10 @@ public class SUnivParser extends UnivParser {
 				}
 			}
 			
+			if(prepPh){
+				elements.remove(elements.size()-1);		
+			}
+
 			elements.add(e);
 			
 			return;
@@ -139,6 +150,8 @@ public class SUnivParser extends UnivParser {
 		if (v != null){
 			//System.out.println("\nEND:" + v);
 			Element e = getPhraseElement(v, true);
+			if (e != null)
+				prepPh = ((e.getPos() != null) && (((Phrasal) e.getPos()) == Phrasal.PP));
 			elements.add(e);
 		}
 			
@@ -160,11 +173,22 @@ public class SUnivParser extends UnivParser {
 			
 	}
 	
-	
+	/**
+	 * 
+	 * @param pos
+	 * @param begin
+	 * @return
+	 */
 	private Element getPhraseElement(String pos, boolean begin){
 		return posTrans.getPhrasalElement(pos, begin);
 	}
 	
+	/**
+	 * 
+	 * @param pos
+	 * @param val
+	 * @return
+	 */
 	private Element getLeafElement(String pos, String val){
 		return posTrans.getTerminalElement(pos, val);
 	}
