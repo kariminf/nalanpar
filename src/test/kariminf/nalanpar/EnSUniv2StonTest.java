@@ -6,7 +6,10 @@ import kariminf.nalanpar.ston.Text2Ston;
 
 public class EnSUniv2StonTest {
 
-	private static final String sent = "the boy or the father play football and basketball at home.";
+	//private static final String sent = "the boy play football at home.";
+	private static final String sent = 
+			//"the boy and the father play football and basketball at home.";
+			"the dog at home ate meat.";
 	
 	public static void main(String[] args) {
 		EnSPOS2Univ posTranformer = new EnSPOS2Univ();

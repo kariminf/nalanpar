@@ -48,7 +48,11 @@ public class Text2Ston implements ParseHandler {
 	private ArrayDeque<Phrasal> openType = new ArrayDeque<Phrasal>();
 	private Posable lastClosedType = Phrasal.S;
 	
-	private String lastRoleId = "";
+	private String lastClosedID = "";
+	
+	//This is used to detect if a PP means which
+	//For example: The book at home is mine => which is at
+	private boolean ppWhich = false;
 	
 	private ArrayList<HashSet<String>> acts ;
 	private HashSet<String> actConj ;
@@ -59,7 +63,40 @@ public class Text2Ston implements ParseHandler {
 	private ArrayList<HashSet<String>> subjs = null;
 	private ArrayList<HashSet<String>> objs = null;
 	private ArrayList<HashSet<String>> rels = null;
-	private String lastRel = "";
+
+	private class DisjInfo {
+		ArrayList<HashSet<String>> ddisj = null;
+		HashSet<String> dconj = null;
+		ArrayList<HashSet<String>> dsubjs = null;
+		ArrayList<HashSet<String>> dobjs = null;
+		ArrayList<HashSet<String>> drels = null;
+		
+		public void switchInfo(){
+		ddisj = disj;
+		dconj = conj;
+		dsubjs = subjs;
+		dobjs = objs;
+		drels = rels;
+		
+		subjs = null;
+		objs = null;
+		rels = null;
+		
+		disj = new ArrayList<HashSet<String>>();
+		conj = new HashSet<String>();
+		disj.add(conj);
+		}
+		
+		public void switchBackInfo(){
+			disj = ddisj;
+			conj = dconj;
+			subjs = dsubjs;
+			objs = dobjs;
+			rels = drels;
+		}
+	}
+	
+	private ArrayDeque<DisjInfo> disjCache = new ArrayDeque<DisjInfo>();
 	
 	public Text2Ston() {
 		try {
@@ -92,7 +129,7 @@ public class Text2Ston implements ParseHandler {
 			break;
 		}
 		case PP:
-			System.out.println("PP inside VP");
+			//System.out.println("PP inside VP");
 			if (rels == null){
 				disj = new ArrayList<HashSet<String>>();
 				conj = new HashSet<String>();
@@ -106,7 +143,7 @@ public class Text2Ston implements ParseHandler {
 		}
 		case VP:
 		{
-			System.out.println("NP inside VP");
+			//System.out.println("NP inside VP");
 			if (objs == null){
 				disj = new ArrayList<HashSet<String>>();
 				conj = new HashSet<String>();
@@ -129,7 +166,7 @@ public class Text2Ston implements ParseHandler {
 
 	@Override
 	public void endNP() {
-		openNP.removeFirst();
+		lastClosedID = openNP.removeFirst();
 		openID.removeFirst();
 		lastClosedType = Phrasal.NP;
 		openType.removeFirst();
@@ -158,7 +195,8 @@ public class Text2Ston implements ParseHandler {
 		}
 		
 		//TODO you have to verify if it is a relative action before adding it
-		actConj.add(actId);
+		if (! ppWhich)
+			actConj.add(actId);
 		
 		openVP.addFirst(actId);
 		openID.addFirst(actId);
@@ -181,7 +219,7 @@ public class Text2Ston implements ParseHandler {
 		}
 		
 		openType.removeFirst();
-		
+		lastClosedID = id;
 	}
 
 	@Override
@@ -206,14 +244,83 @@ public class Text2Ston implements ParseHandler {
 
 	@Override
 	public void beginPP(String prep) {
-		System.out.println("prep. phrase: " + prep);
+		//System.out.println("prep. phrase: " + prep);
+		
+		if (openType.getFirst() == Phrasal.NP){
+			String id = lastClosedID; //openNP.getFirst();
+			
+			DisjInfo disjInfo = new DisjInfo();
+			disjInfo.switchInfo();
+						
+			disjCache.addFirst(disjInfo);
+			
+			rq.addRelative("SUBJ", id);
+			
+			//To prevent adding the next action to the sentence
+			ppWhich = true;
+			
+			beginVP();
+			
+			addVerb("be", VerbTense.PRESENT);
+			
+			HashSet<String> tmpRel = new HashSet<String>();
+			tmpRel.add(openVP.getFirst());
+			//System.out.println("relative: " + openVP.getFirst());
+			rq.addRelativeConjunctions(tmpRel);
+			
+			beginPP(prep);
+			
+			
+			return;
+		}
+		
+		//TODO research for the type
+		String type = "P_AT";
+		
+		//System.out.println("last open type: " + openType.getFirst());
+		if (openType.getFirst() == Phrasal.VP){
+			//System.out.println("adpositional phrase " + type);
+			String id = openVP.getFirst();
+			rq.addRelative(type, id);
+		}
+		
+		
 		openType.addFirst(Phrasal.PP);
+		
 	}
 
 	@Override
 	public void endPP() {
 		lastClosedType = Phrasal.PP;
 		openType.removeFirst();
+		
+		if (rels != null && !rels.isEmpty()){
+			for (HashSet<String> relConj: rels){
+				if (relConj != null)
+					rq.addRelativeConjunctions(relConj);
+			}
+				
+			rels = null;
+		}
+		
+		if (ppWhich){
+			ppWhich = false;
+			
+			endVP();
+			
+			if (! disjCache.isEmpty()){
+				DisjInfo disjInfo = disjCache.removeFirst();
+				/*
+				conj = disjInfo.conj;
+				disj = disjInfo.disj;
+				subjs = disjInfo.subjs;
+				objs = disjInfo.objs;
+				rels = disjInfo.rels;
+				*/
+				disjInfo.switchBackInfo();
+			}
+			
+		}
 	}
 
 	@Override

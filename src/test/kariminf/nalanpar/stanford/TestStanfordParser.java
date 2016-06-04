@@ -23,7 +23,8 @@ public class TestStanfordParser {
 			"../stanford-parser-full-2014-08-27/models/lexparser/englishFactored.ser.gz";
 	static String text =
 			//"The mother that ate 5 apples play at the backyard.";
-			"the boy and the father play football and basketball at home.";
+			//"the boy and the father play football and basketball at home.";
+			"the dog at home ate meat.";
 	/**
 	 * @param args
 	 */
