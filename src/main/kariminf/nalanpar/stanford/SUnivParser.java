@@ -13,7 +13,6 @@ import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreebankLanguagePack;
 import kariminf.nalanpar.POSTransformer;
 import kariminf.nalanpar.ParseHandler;
-import kariminf.nalanpar.Types.Det;
 import kariminf.nalanpar.Types.Featured;
 import kariminf.nalanpar.Types.NounFeature;
 import kariminf.nalanpar.Types.Phrasal;
@@ -21,6 +20,7 @@ import kariminf.nalanpar.Types.Posable;
 import kariminf.nalanpar.Types.Terminal;
 import kariminf.nalanpar.stanford.EnSPOS2Univ.PennTreeBankTerminal;
 import kariminf.nalanpar.UnivParser;
+import kariminf.sentrep.univ.types.Determiner;
 
 public class SUnivParser extends UnivParser {
 	
@@ -31,7 +31,7 @@ public class SUnivParser extends UnivParser {
 	private Iterator<Element> pointer = null;
 	private ArrayList<Element> elements = new ArrayList<Element>();
 	
-	private Det determiner = Det.NONE;
+	private Determiner determiner = Determiner.NONE;
 	
 	private boolean prepPh = false;
 	
@@ -116,10 +116,10 @@ public class SUnivParser extends UnivParser {
 				NounFeature nf = (NounFeature) e.getFeature();
 				if (nf != null){
 					switch (determiner){
-					case N:
+					case NO:
 						nf.setUnDefined();
 						break;
-					case Y:
+					case YES:
 						nf.setDefined();
 						break;
 					default:
@@ -127,7 +127,7 @@ public class SUnivParser extends UnivParser {
 					
 					}
 					
-					determiner = Det.NONE;
+					determiner = Determiner.NONE;
 				}
 			}
 			

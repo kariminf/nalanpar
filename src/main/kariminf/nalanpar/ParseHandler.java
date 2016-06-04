@@ -1,7 +1,8 @@
 package kariminf.nalanpar;
 
-import kariminf.nalanpar.Types.Det;
-import kariminf.nalanpar.Types.VerbTense;
+import kariminf.sentrep.univ.types.Determiner;
+import kariminf.sentrep.univ.types.VerbTense;
+
 
 public interface ParseHandler {
 	
@@ -72,7 +73,7 @@ public interface ParseHandler {
 	 * @param plural Is it plural?
 	 * @param proper Is it a proper noun?
 	 */
-	public void addNoun(String val, Det det, boolean plural, boolean proper);
+	public void addNoun(String val, Determiner det, boolean plural, boolean proper);
 	
 	/**
 	 * This function is used to add a verb to the last verbal phrase

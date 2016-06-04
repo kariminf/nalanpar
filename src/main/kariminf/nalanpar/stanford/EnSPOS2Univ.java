@@ -2,7 +2,6 @@ package kariminf.nalanpar.stanford;
 
 import kariminf.nalanpar.POSTransformer;
 import kariminf.nalanpar.Types.ConjFeature;
-import kariminf.nalanpar.Types.Det;
 import kariminf.nalanpar.Types.Featured;
 import kariminf.nalanpar.Types.NounFeature;
 import kariminf.nalanpar.Types.PPFeature;
@@ -12,6 +11,7 @@ import kariminf.nalanpar.Types.PhrasalFeature;
 import kariminf.nalanpar.Types.Posable;
 import kariminf.nalanpar.Types.Terminal;
 import kariminf.nalanpar.UnivParser.Element;
+import kariminf.sentrep.univ.types.Determiner;
 
 public class EnSPOS2Univ implements POSTransformer {
 	
@@ -366,13 +366,13 @@ public class EnSPOS2Univ implements POSTransformer {
 	}
 
 	@Override
-	public Det getDet(String val) {
+	public Determiner getDet(String val) {
 		val = val.toLowerCase();
 		if (val.equals("the"))
-			return Det.Y;
+			return Determiner.YES;
 		if (val.matches("a|an"))
-			return Det.N;
-		return Det.NONE;
+			return Determiner.NO;
+		return Determiner.NONE;
 	}
 
 }

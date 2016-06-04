@@ -1,13 +1,14 @@
 package kariminf.nalanpar;
 
+import kariminf.sentrep.univ.types.Determiner;
+import kariminf.sentrep.univ.types.VerbTense;
+
 public class Types {
 	
 	public interface Posable {
-		
 	}
 	
 	public interface Featured {
-		
 	}
 	
 	
@@ -36,11 +37,6 @@ public class Types {
 		}
 	}
 	
-	public static enum VerbTense {
-		PAST,
-		PRESENT,
-		FUTURE
-	}
 	
 	public static class VerbFeature implements Featured {
 		private VerbTense tense = VerbTense.PRESENT;
@@ -64,19 +60,19 @@ public class Types {
 	}
 	
 	public static class NounFeature implements Featured {
-		private Det def = Det.NONE;
+		private Determiner def = Determiner.NONE;
 		private boolean proper = false;
 		private boolean plural = false;
 		
 		public void setDefined(){
-			this.def = Det.Y;
+			this.def = Determiner.YES;
 		}
 		
 		public void setUnDefined(){
-			this.def = Det.N;
+			this.def = Determiner.NO;
 		}
 		
-		public Det getDefined(){
+		public Determiner getDefined(){
 			return def;
 		}
 		
@@ -140,11 +136,4 @@ public class Types {
 		X; // other
 	}
 	
-	public static enum Det {
-		NONE,
-		Y,
-		N
-	}
-
-
 }

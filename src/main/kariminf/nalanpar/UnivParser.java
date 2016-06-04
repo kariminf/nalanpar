@@ -1,7 +1,6 @@
 package kariminf.nalanpar;
 
 import kariminf.nalanpar.Types.ConjFeature;
-import kariminf.nalanpar.Types.Det;
 import kariminf.nalanpar.Types.Featured;
 import kariminf.nalanpar.Types.NounFeature;
 import kariminf.nalanpar.Types.PPFeature;
@@ -10,7 +9,8 @@ import kariminf.nalanpar.Types.PhrasalFeature;
 import kariminf.nalanpar.Types.Posable;
 import kariminf.nalanpar.Types.Terminal;
 import kariminf.nalanpar.Types.VerbFeature;
-import kariminf.nalanpar.Types.VerbTense;
+import kariminf.sentrep.univ.types.Determiner;
+import kariminf.sentrep.univ.types.VerbTense;
 
 public abstract class UnivParser {
 	
@@ -130,7 +130,7 @@ public abstract class UnivParser {
 		{
 			boolean plural = false;
 			boolean proper = false;
-			Det def = Det.NONE;
+			Determiner def = Determiner.NONE;
 			if (f != null && f instanceof NounFeature){
 				NounFeature nf = (NounFeature) f;
 				plural = nf.isPlural();
