@@ -54,22 +54,22 @@ public class Text2Ston implements ParseHandler {
 	//For example: The book at home is mine => which is at
 	private boolean ppWhich = false;
 	
-	private ArrayList<HashSet<String>> acts ;
-	private HashSet<String> actConj ;
+	private ArrayList<ArrayList<String>> acts ;
+	private ArrayList<String> actConj ;
 	
-	private ArrayList<HashSet<String>> disj = new ArrayList<HashSet<String>>();
-	private HashSet<String> conj = new HashSet<String>();
+	private ArrayList<ArrayList<String>> disj = new ArrayList<ArrayList<String>>();
+	private ArrayList<String> conj = new ArrayList<String>();
 	
-	private ArrayList<HashSet<String>> subjs = null;
-	private ArrayList<HashSet<String>> objs = null;
-	private ArrayList<HashSet<String>> rels = null;
+	private ArrayList<ArrayList<String>> subjs = null;
+	private ArrayList<ArrayList<String>> objs = null;
+	private ArrayList<ArrayList<String>> rels = null;
 
 	private class DisjInfo {
-		ArrayList<HashSet<String>> ddisj = null;
-		HashSet<String> dconj = null;
-		ArrayList<HashSet<String>> dsubjs = null;
-		ArrayList<HashSet<String>> dobjs = null;
-		ArrayList<HashSet<String>> drels = null;
+		ArrayList<ArrayList<String>> ddisj = null;
+		ArrayList<String> dconj = null;
+		ArrayList<ArrayList<String>> dsubjs = null;
+		ArrayList<ArrayList<String>> dobjs = null;
+		ArrayList<ArrayList<String>> drels = null;
 		
 		public void switchInfo(){
 		ddisj = disj;
@@ -82,8 +82,8 @@ public class Text2Ston implements ParseHandler {
 		objs = null;
 		rels = null;
 		
-		disj = new ArrayList<HashSet<String>>();
-		conj = new HashSet<String>();
+		disj = new ArrayList<ArrayList<String>>();
+		conj = new ArrayList<String>();
 		disj.add(conj);
 		}
 		
@@ -131,8 +131,8 @@ public class Text2Ston implements ParseHandler {
 		case PP:
 			//System.out.println("PP inside VP");
 			if (rels == null){
-				disj = new ArrayList<HashSet<String>>();
-				conj = new HashSet<String>();
+				disj = new ArrayList<ArrayList<String>>();
+				conj = new ArrayList<String>();
 				disj.add(conj);
 				rels = disj;
 			}
@@ -145,8 +145,8 @@ public class Text2Ston implements ParseHandler {
 		{
 			//System.out.println("NP inside VP");
 			if (objs == null){
-				disj = new ArrayList<HashSet<String>>();
-				conj = new HashSet<String>();
+				disj = new ArrayList<ArrayList<String>>();
+				conj = new ArrayList<String>();
 				disj.add(conj);
 				objs = disj;
 			}
@@ -176,8 +176,8 @@ public class Text2Ston implements ParseHandler {
 	public void beginSentence() {
 		openType.addFirst(Phrasal.S);
 		
-		acts = new ArrayList<HashSet<String>>();
-		actConj = new HashSet<String>();
+		acts = new ArrayList<ArrayList<String>>();
+		actConj = new ArrayList<String>();
 		acts.add(actConj);
 	}
 
@@ -190,7 +190,7 @@ public class Text2Ston implements ParseHandler {
 		if (lastClosedType == Phrasal.NP){
 			if (disj.size() > 0){
 				subjs = disj;
-				disj = new ArrayList<HashSet<String>>();
+				disj = new ArrayList<ArrayList<String>>();
 			}	
 		}
 		
@@ -213,8 +213,8 @@ public class Text2Ston implements ParseHandler {
 		if (objs != null && !objs.isEmpty()){
 			
 			//System.out.println("//End verbal phrase: " + id);
-			for (HashSet<String> objConj: objs)
-				rq.addObjectConjunctions(id, objConj);
+			for (ArrayList<String> objConj: objs)
+				rq.addThemeConjunctions(id, objConj);
 			objs = null;
 		}
 		
@@ -263,7 +263,7 @@ public class Text2Ston implements ParseHandler {
 			
 			addVerb("be", VerbTense.PRESENT);
 			
-			HashSet<String> tmpRel = new HashSet<String>();
+			ArrayList<String> tmpRel = new ArrayList<String>();
 			tmpRel.add(openVP.getFirst());
 			//System.out.println("relative: " + openVP.getFirst());
 			rq.addRelativeConjunctions(tmpRel);
@@ -295,7 +295,7 @@ public class Text2Ston implements ParseHandler {
 		openType.removeFirst();
 		
 		if (rels != null && !rels.isEmpty()){
-			for (HashSet<String> relConj: rels){
+			for (ArrayList<String> relConj: rels){
 				if (relConj != null)
 					rq.addRelativeConjunctions(relConj);
 			}
@@ -415,8 +415,8 @@ public class Text2Ston implements ParseHandler {
 		
 		if (subjs != null && !subjs.isEmpty()){
 			
-			for (HashSet<String> subjConj: subjs)
-				rq.addSubjectConjunctions(id, subjConj);
+			for (ArrayList<String> subjConj: subjs)
+				rq.addAgentConjunctions(id, subjConj);
 			subjs = null;
 		}
 	}
@@ -426,7 +426,7 @@ public class Text2Ston implements ParseHandler {
 		lastClosedType = Phrasal.S;
 		openType.removeFirst();
 		rq.addSentence("AFF");
-		for(HashSet<String> actConj : acts)
+		for(ArrayList<String> actConj : acts)
 			rq.addSentActionConjunctions(true, actConj);
 		
 	}
@@ -437,7 +437,7 @@ public class Text2Ston implements ParseHandler {
 		if (conj){
 			//numRole++;
 		} else {
-			this.conj = new HashSet<String>();
+			this.conj = new ArrayList<String>();
 			disj.add(this.conj);
 		}
 		

@@ -24,7 +24,8 @@ public class TestStanfordParser {
 	static String text =
 			//"The mother that ate 5 apples play at the backyard.";
 			//"the boy and the father play football and basketball at home.";
-			"the dog at home ate meat.";
+			//"the dog which barks ate meat.";
+			"This every man contains within him";
 	/**
 	 * @param args
 	 */
