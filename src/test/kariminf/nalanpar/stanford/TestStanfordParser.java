@@ -20,12 +20,13 @@ import edu.stanford.nlp.trees.TypedDependency;
 public class TestStanfordParser {
 
 	static final String model = 
-			"../stanford-parser-full-2014-08-27/models/lexparser/englishFactored.ser.gz";
+			"../stanford-parser-2014/models/lexparser/englishFactored.ser.gz";
 	static String text =
 			//"The mother that ate 5 apples play at the backyard.";
 			//"the boy and the father play football and basketball at home.";
 			//"the dog which barks ate meat.";
-			"This every man contains within him";
+			//"This every man contains within him";
+			"Born in Cairo in 1911, Naguib Mahfouz began writing when he was seventeen.";
 	/**
 	 * @param args
 	 */

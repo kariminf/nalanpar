@@ -10,6 +10,7 @@ import kariminf.nalanpar.Types.Posable;
 import kariminf.nalanpar.Types.Terminal;
 import kariminf.nalanpar.Types.VerbFeature;
 import kariminf.sentrep.univ.types.Determiner;
+import kariminf.sentrep.univ.types.Pronoun;
 import kariminf.sentrep.univ.types.VerbTense;
 
 public abstract class UnivParser {
@@ -128,6 +129,7 @@ public abstract class UnivParser {
 		switch(p){
 		case NOUN:
 		{
+			//Test for pronouns like: this, his, etc.
 			boolean plural = false;
 			boolean proper = false;
 			Determiner def = Determiner.NONE;
@@ -137,7 +139,8 @@ public abstract class UnivParser {
 				proper = nf.isProper();
 				def = nf.getDefined();
 			}
-			handler.addNoun(val, def, plural, proper);
+			//TODO pronouns like: this, his, etc.
+			handler.addNoun(val, def, plural, proper, null);
 			break;
 		}
 		case ADJ:
@@ -167,7 +170,11 @@ public abstract class UnivParser {
 		case PART:
 			break;
 		case PRON:
+		{
+			Pronoun pronoun = new Pronoun();
+			handler.addPronoun(pronoun);
 			break;
+		}
 		case PUNCT:
 			break;
 		case SCONJ:

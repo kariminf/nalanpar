@@ -1,6 +1,7 @@
 package kariminf.nalanpar;
 
 import kariminf.sentrep.univ.types.Determiner;
+import kariminf.sentrep.univ.types.Pronoun;
 import kariminf.sentrep.univ.types.VerbTense;
 
 
@@ -72,8 +73,16 @@ public interface ParseHandler {
 	 * @param det Determined or not or undefined
 	 * @param plural Is it plural?
 	 * @param proper Is it a proper noun?
+	 * @param pronoun a demonstrative or possessive pronoun; It can be null
 	 */
-	public void addNoun(String val, Determiner det, boolean plural, boolean proper);
+	public void addNoun(String val, Determiner det, boolean plural, boolean proper, Pronoun pronoun);
+	
+	
+	/**
+	 * Adding a pronoun
+	 * @param pronoun the pronoun to be add
+	 */
+	public void addPronoun(Pronoun pronoun);
 	
 	/**
 	 * This function is used to add a verb to the last verbal phrase

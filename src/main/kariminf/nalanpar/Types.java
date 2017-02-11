@@ -1,6 +1,7 @@
 package kariminf.nalanpar;
 
 import kariminf.sentrep.univ.types.Determiner;
+import kariminf.sentrep.univ.types.Pronoun;
 import kariminf.sentrep.univ.types.VerbTense;
 
 public class Types {
@@ -91,6 +92,20 @@ public class Types {
 		public boolean isPlural(){
 			return plural;
 		}
+		
+	}
+	
+	public static class PronounFeature implements Featured {
+		private Pronoun pronoun;
+		
+		public void setPronoun(Pronoun pronoun){
+			this.pronoun = pronoun;
+		}
+		
+		public Pronoun getPronoun(){
+			return pronoun;
+		}
+		
 		
 	}
 	

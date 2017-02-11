@@ -17,12 +17,13 @@ import kariminf.nalanpar.ParseHandler;
 import kariminf.nalanpar.Types.Phrasal;
 import kariminf.nalanpar.Types.Posable;
 import kariminf.nalanpar.Types.Terminal;
-
+import kariminf.sentrep.ston.Univ2StonMap;
 import kariminf.sentrep.ston.request.ReqAction;
 import kariminf.sentrep.ston.request.ReqCreator;
 import kariminf.sentrep.ston.request.ReqRolePlayer;
 import kariminf.sentrep.ston.request.ReqSentence;
 import kariminf.sentrep.univ.types.Determiner;
+import kariminf.sentrep.univ.types.Pronoun;
 import kariminf.sentrep.univ.types.VerbTense;
 
 public class Text2Ston implements ParseHandler {
@@ -31,6 +32,7 @@ public class Text2Ston implements ParseHandler {
 			"../LangPi/wordnetDB/wordnet.sqlite";
 	private ReqCreator rq = new ReqCreator();
 	private WNRequestor wordnetReq = null; 
+	private Univ2StonMap univ2stonMapper = new Univ2StonMap();
 	private int numAction = 0;
 	private int numRole = 0;
 	/*
@@ -275,7 +277,7 @@ public class Text2Ston implements ParseHandler {
 		}
 		
 		//TODO research for the type
-		String type = "P_AT";
+		String type = "IN";
 		
 		//System.out.println("last open type: " + openType.getFirst());
 		if (openType.getFirst() == Phrasal.VP){
@@ -324,7 +326,7 @@ public class Text2Ston implements ParseHandler {
 	}
 
 	@Override
-	public void addNoun(String val, Determiner det, boolean plural, boolean proper) {
+	public void addNoun(String val, Determiner det, boolean plural, boolean proper, Pronoun pronoun) {
 		String id = "role-" + numRole;
 		int nounSynSet = 0;
 		
@@ -332,6 +334,7 @@ public class Text2Ston implements ParseHandler {
 		
 		if (wordnetReq == null)
 			return;
+		
 		
 		if(proper){
 			//TODO search for its type: city, person, animal, etc.
@@ -348,11 +351,14 @@ public class Text2Ston implements ParseHandler {
 				
 		}
 		
-		rq.addRolePlayer(id, nounSynSet);
-		if (plural)
-			rq.setQuantity(id, "PL");
-		if(proper)
-			rq.setRoleProperName(id, val);
+		if (pronoun != null){
+			rq.addPronounRolePlayer(id, nounSynSet, univ2stonMapper.getPronoun(pronoun));
+		} else {
+			rq.addRolePlayer(id, nounSynSet);
+		}
+		
+		if (plural) rq.setQuantity(id, "PL");
+		if(proper) rq.setRoleProperName(id, val);
 		
 		//Transform from universal to Ston
 		
@@ -427,7 +433,7 @@ public class Text2Ston implements ParseHandler {
 		openType.removeFirst();
 		rq.addSentence("AFF");
 		for(ArrayList<String> actConj : acts)
-			rq.addSentActionConjunctions(true, actConj);
+			rq.addSentActionConjunctions(actConj);
 		
 	}
 
@@ -445,6 +451,15 @@ public class Text2Ston implements ParseHandler {
 			endNP();
 			beginNP();
 		}
+		
+	}
+
+	@Override
+	public void addPronoun(Pronoun pronoun) {
+		String id = "role-" + numRole;
+		
+		conj.add(id);
+		rq.addPronounRolePlayer(id, 0, univ2stonMapper.getPronoun(pronoun));
 		
 	}
 

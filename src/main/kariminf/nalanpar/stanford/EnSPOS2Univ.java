@@ -9,8 +9,11 @@ import kariminf.nalanpar.Types.VerbFeature;
 import kariminf.nalanpar.Types.Phrasal;
 import kariminf.nalanpar.Types.PhrasalFeature;
 import kariminf.nalanpar.Types.Posable;
+import kariminf.nalanpar.Types.PronounFeature;
 import kariminf.nalanpar.Types.Terminal;
 import kariminf.nalanpar.UnivParser.Element;
+import kariminf.nalanpar.lang.Eng2UnivMapper;
+import kariminf.sentrep.UnivMap;
 import kariminf.sentrep.univ.types.Determiner;
 
 public class EnSPOS2Univ implements POSTransformer {
@@ -89,11 +92,14 @@ public class EnSPOS2Univ implements POSTransformer {
 		VP, //Vereb Phrase. 
 		WHADJP, //Wh-adjective Phrase. Adjectival phrase containing a wh-adverb, as in how hot.
 		WHAVP, //Wh-adverb Phrase. Introduces a clause with an NP gap. May be null (containing the 0 complementizer) or lexical, containing a wh-adverb such as how or why.
+		WHADVP, //like the previous one
 		WHNP, //Wh-noun Phrase. Introduces a clause with an NP gap. May be null (containing the 0 complementizer) or lexical, containing some wh-word, e.g. who, which book, whose daughter, none of which, or how many leopards.
 		WHPP, //Wh-prepositional Phrase. Prepositional phrase containing a wh-noun phrase (such as of which or by whose authority) that either introduces a PP gap or is contained by a WHNP.
 		X, //Unknown, uncertain, or unbracketable. X is often used for bracketing typos and in bracketing the...the-constructions.
 		
 	}
+	
+	private UnivMap en2univ = new Eng2UnivMapper();
 	
 	@Override
 	public Posable getType(String pos) {
@@ -232,7 +238,13 @@ public class EnSPOS2Univ implements POSTransformer {
 		case POS:
 			break;
 		case PRP:
+		{
+			t = Terminal.PRON;
+			PronounFeature pf = new PronounFeature();
+			pf.setPronoun(en2univ.mapPronoun(val));
+			f = pf;
 			break;
+		}
 		case PRP$:
 			break;
 		case RB:
@@ -268,6 +280,7 @@ public class EnSPOS2Univ implements POSTransformer {
 
 	@Override
 	public Element getPhrasalElement(String pos, boolean begin) {
+		//System.out.println(pos);
 		PennTreeBankPhrasal p = PennTreeBankPhrasal.valueOf(pos);
 		Phrasal ph=null;
 		
@@ -340,7 +353,8 @@ public class EnSPOS2Univ implements POSTransformer {
 			//break;
 		case WHADJP:
 			return null;
-			//break;
+			
+		case WHADVP: //this is like WHAVP
 		case WHAVP:
 			return null;
 			//break;

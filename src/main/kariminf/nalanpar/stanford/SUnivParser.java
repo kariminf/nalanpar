@@ -25,7 +25,7 @@ import kariminf.sentrep.univ.types.Determiner;
 public class SUnivParser extends UnivParser {
 	
 	static final String model = 
-			"../stanford-parser-full-2014-08-27/models/lexparser/englishFactored.ser.gz";
+			"../stanford-parser-2014/models/lexparser/englishFactored.ser.gz";
 	
 	
 	private Iterator<Element> pointer = null;
