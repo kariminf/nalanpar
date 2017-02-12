@@ -389,4 +389,24 @@ public class EnSPOS2Univ implements POSTransformer {
 		return Determiner.NONE;
 	}
 
+	@Override
+	public Element fuseTerminals(Element older, Element newer) {
+		if (newer.getPos() != Terminal.NOUN || 
+				older.getPos() != Terminal.NOUN)
+			return newer;
+		
+		
+		NounFeature nfOlder = (NounFeature) older.getFeature();
+		NounFeature nfNewer = (NounFeature) newer.getFeature();
+		
+		if (nfOlder == null || nfNewer == null) return newer;
+		
+		if (!nfOlder.isProper() || !nfNewer.isProper()) return newer;
+		
+		
+		String newValue = older.getVal() + "_" + newer.getVal();
+		return new Element(newValue, Terminal.NOUN, nfNewer);
+		
+	}
+
 }

@@ -14,5 +14,7 @@ public interface POSTransformer {
 	public Element getPhrasalElement(String pos, boolean begin);
 	
 	public Determiner getDet(String val);
+	
+	public Element fuseTerminals(Element older, Element newer);
 
 }

@@ -35,6 +35,9 @@ public class SUnivParser extends UnivParser {
 	
 	private boolean prepPh = false;
 	
+	// This is used to capture if the last element is terminal or not
+	private Element pastTerminal = null;
+	
 	public SUnivParser(ParseHandler handler, POSTransformer posTrans) {
 		super(handler, posTrans);
 	}
@@ -102,13 +105,18 @@ public class SUnivParser extends UnivParser {
 			
 			Element e = getLeafElement(pos, val);
 			
+			
+			
 			Posable p = e.getPos();
 			if (p == null)
 				return;
 			Terminal te = p instanceof Terminal? (Terminal) p: null;
 			
+			
+			
 			if (te == Terminal.DET){
 				determiner  = posTrans.getDet(val);
+				pastTerminal = e;
 				return;
 			}
 			
@@ -129,7 +137,18 @@ public class SUnivParser extends UnivParser {
 					
 					determiner = Determiner.NONE;
 				}
+				
+				if ( pastTerminal != null && pastTerminal.getPos() == Terminal.NOUN){
+					
+					Element e2 = posTrans.fuseTerminals(pastTerminal, e);
+					if (e2 != e){
+						elements.remove(elements.size()-1);	
+						e = e2;
+					}
+				}
 			}
+			
+			pastTerminal = e;
 			
 			if(prepPh){
 				elements.remove(elements.size()-1);		
@@ -154,13 +173,16 @@ public class SUnivParser extends UnivParser {
 				prepPh = ((e.getPos() != null) && (((Phrasal) e.getPos()) == Phrasal.PP));
 			elements.add(e);
 		}
-			
+		
+		pastTerminal = null;
 		
 		Tree[] childs = t.children();
 		
 		if (childs != null){
 			for (Tree child: childs){
+				//pastTerminal = null;
 				parseTree(child);
+				//pastTerminal = null;
 			}
 		}
 		
