@@ -121,6 +121,7 @@ public class Types {
 		}
 		
 	}
+	
 
 	public static enum Phrasal implements Posable {
 		S,

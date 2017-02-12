@@ -205,8 +205,12 @@ public class EnSPOS2Univ implements POSTransformer {
 			f = cf;
 			break;
 		}
-		case CD:
+		case CD://Cardinal number
+		{
+			t = Terminal.NUM;
+			f = null;//No features are needed
 			break;
+		}
 		case DT:
 		{
 			t = Terminal.DET;

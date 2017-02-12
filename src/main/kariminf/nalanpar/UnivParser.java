@@ -166,7 +166,11 @@ public abstract class UnivParser {
 		case INTJ:
 			break;
 		case NUM:
+		{
+			//TODO Numbers
+			handler.addNoun(val, Determiner.NONE, false, true, null);
 			break;
+		}
 		case PART:
 			break;
 		case PRON:
