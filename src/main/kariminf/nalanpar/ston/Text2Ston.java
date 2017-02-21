@@ -416,10 +416,10 @@ public class Text2Ston implements ParseHandler {
 		case FUTURE:
 			break;
 		case PAST:
-			rq.addVerbSpecif(id, "PA", "", false, false);
+			rq.addVerbSpecif(id, "PA", "", false, false, false);
 			break;
 		case PRESENT:
-			rq.addVerbSpecif(id, "PR", "", false, false);
+			rq.addVerbSpecif(id, "PR", "", false, false, false);
 			break;
 		default:
 			break;
