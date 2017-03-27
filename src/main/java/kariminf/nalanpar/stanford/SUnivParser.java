@@ -19,8 +19,8 @@ import kariminf.nalanpar.Types.Phrasal;
 import kariminf.nalanpar.Types.Posable;
 import kariminf.nalanpar.Types.Terminal;
 import kariminf.nalanpar.stanford.EnSPOS2Univ.PennTreeBankTerminal;
+import kariminf.sentrep.types.Determiner;
 import kariminf.nalanpar.UnivParser;
-import kariminf.sentrep.univ.types.Determiner;
 
 public class SUnivParser extends UnivParser {
 	

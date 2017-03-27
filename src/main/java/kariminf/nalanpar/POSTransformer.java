@@ -3,7 +3,7 @@ package kariminf.nalanpar;
 
 import kariminf.nalanpar.Types.Posable;
 import kariminf.nalanpar.UnivParser.Element;
-import kariminf.sentrep.univ.types.Determiner;
+import kariminf.sentrep.types.Determiner;
 
 public interface POSTransformer {
 	

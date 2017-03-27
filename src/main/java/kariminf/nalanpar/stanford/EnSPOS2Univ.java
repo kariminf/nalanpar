@@ -14,7 +14,7 @@ import kariminf.nalanpar.Types.Terminal;
 import kariminf.nalanpar.UnivParser.Element;
 import kariminf.nalanpar.lang.Eng2UnivMapper;
 import kariminf.sentrep.UnivMap;
-import kariminf.sentrep.univ.types.Determiner;
+import kariminf.sentrep.types.Determiner;
 
 public class EnSPOS2Univ implements POSTransformer {
 	

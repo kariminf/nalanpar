@@ -22,9 +22,9 @@ import kariminf.sentrep.ston.request.ReqAction;
 import kariminf.sentrep.ston.request.ReqCreator;
 import kariminf.sentrep.ston.request.ReqRolePlayer;
 import kariminf.sentrep.ston.request.ReqSentence;
-import kariminf.sentrep.univ.types.Determiner;
-import kariminf.sentrep.univ.types.Pronoun;
-import kariminf.sentrep.univ.types.VerbTense;
+import kariminf.sentrep.types.Determiner;
+import kariminf.sentrep.types.Pronoun;
+import kariminf.sentrep.types.VerbTense;
 
 public class Text2Ston implements ParseHandler {
 

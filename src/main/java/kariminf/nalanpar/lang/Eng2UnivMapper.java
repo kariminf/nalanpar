@@ -3,18 +3,18 @@ package kariminf.nalanpar.lang;
 import java.util.ArrayList;
 
 import kariminf.sentrep.UnivMap;
-import kariminf.sentrep.univ.types.Comparison;
-import kariminf.sentrep.univ.types.Determiner;
-import kariminf.sentrep.univ.types.Modality;
-import kariminf.sentrep.univ.types.Pronoun;
-import kariminf.sentrep.univ.types.Pronoun.Gender;
-import kariminf.sentrep.univ.types.Pronoun.Head;
-import kariminf.sentrep.univ.types.Pronoun.Person;
-import kariminf.sentrep.univ.types.Relation.Adpositional;
-import kariminf.sentrep.univ.types.Relation.Adverbial;
-import kariminf.sentrep.univ.types.Relation.Relative;
-import kariminf.sentrep.univ.types.SentMood;
-import kariminf.sentrep.univ.types.VerbTense;
+import kariminf.sentrep.types.Comparison;
+import kariminf.sentrep.types.Determiner;
+import kariminf.sentrep.types.Modality;
+import kariminf.sentrep.types.Pronoun;
+import kariminf.sentrep.types.SentMood;
+import kariminf.sentrep.types.VerbTense;
+import kariminf.sentrep.types.Pronoun.Gender;
+import kariminf.sentrep.types.Pronoun.Head;
+import kariminf.sentrep.types.Pronoun.Person;
+import kariminf.sentrep.types.Relation.Adpositional;
+import kariminf.sentrep.types.Relation.Adverbial;
+import kariminf.sentrep.types.Relation.Relative;
 
 public class Eng2UnivMapper implements UnivMap {
 	 

@@ -9,9 +9,9 @@ import kariminf.nalanpar.Types.PhrasalFeature;
 import kariminf.nalanpar.Types.Posable;
 import kariminf.nalanpar.Types.Terminal;
 import kariminf.nalanpar.Types.VerbFeature;
-import kariminf.sentrep.univ.types.Determiner;
-import kariminf.sentrep.univ.types.Pronoun;
-import kariminf.sentrep.univ.types.VerbTense;
+import kariminf.sentrep.types.Determiner;
+import kariminf.sentrep.types.Pronoun;
+import kariminf.sentrep.types.VerbTense;
 
 public abstract class UnivParser {
 	

@@ -1,8 +1,8 @@
 package kariminf.nalanpar;
 
-import kariminf.sentrep.univ.types.Determiner;
-import kariminf.sentrep.univ.types.Pronoun;
-import kariminf.sentrep.univ.types.VerbTense;
+import kariminf.sentrep.types.Determiner;
+import kariminf.sentrep.types.Pronoun;
+import kariminf.sentrep.types.VerbTense;
 
 
 public interface ParseHandler {
