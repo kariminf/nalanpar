@@ -1,10 +1,10 @@
 # NaLanPar
 
-[![Project](https://img.shields.io/badge/Project-NaLanPar-4B0082.svg)](https://github.com/kariminf/NaLanPar)
+[![Project](https://img.shields.io/badge/Project-NaLanPar-4B0082.svg)](https://github.com/kariminf/nalanpar)
 [![License](https://img.shields.io/badge/License-Apache_2-4B0082.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-[![Travis](https://img.shields.io/travis/kariminf/NaLanPar.svg)](https://travis-ci.org/kariminf/NaLanPar)
-[![codecov](https://img.shields.io/codecov/c/github/kariminf/NaLanPar.svg)](https://codecov.io/gh/kariminf/NaLanPar)
-[![jitpack](https://jitpack.io/v/kariminf/NaLanPar.svg)](https://jitpack.io/#kariminf/NaLanPar)
+[![Travis](https://img.shields.io/travis/kariminf/nalanpar.svg)](https://travis-ci.org/kariminf/nalanpar)
+[![codecov](https://img.shields.io/codecov/c/github/kariminf/nalanpar.svg)](https://codecov.io/gh/kariminf/nalanpar)
+[![jitpack](https://jitpack.io/v/kariminf/nalanpar.svg)](https://jitpack.io/#kariminf/nalanpar)
 
 NaLanPar stands for "Natural Language Parser".
 The aim of this tool is to combine a lot of Natural language parsers for as many languages as we can.
