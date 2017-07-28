@@ -25,7 +25,7 @@ import kariminf.nalanpar.UnivParser;
 public class SUnivParser extends UnivParser {
 	
 	static final String model = 
-			"../stanford-parser-2014/models/lexparser/englishFactored.ser.gz";
+			"../Stanford-Parser/models/lexparser/englishFactored.ser.gz";
 	
 	
 	private Iterator<Element> pointer = null;

@@ -18,7 +18,10 @@
  */
 
 
-rootProject.name = 'NaLanPar'
+rootProject.name = 'nalanpar'
 
-include ':SentRep'
-project(':SentRep').projectDir = new File(settingsDir, '../SentRep')
+include ':sentrep'
+project(':sentrep').projectDir = new File(settingsDir, '../sentrep')
+
+include ':langpi'
+project(':langpi').projectDir = new File(settingsDir, '../langpi')

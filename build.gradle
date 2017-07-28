@@ -28,7 +28,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 // Release version
-version = '1.0.0'
+version = '0.1.1'
 
 ext.current_Date = getDate()
 
@@ -58,13 +58,20 @@ def getDate() {
  
 repositories {
     jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.21'
     
-    compile project(':SentRep')
+    compile 'edu.stanford.nlp:stanford-parser:3.7.0'
+    
+    //compile project(':sentrep')
+    compile 'com.github.kariminf:sentrep:1.0.1'
+    
+    compile project(':langpi')
+    compile 'com.github.kariminf:langpi:1.1.5'
 
     testCompile 'junit:junit:4.12'
 }
